@@ -1,6 +1,14 @@
 {
   "errico": [
     {
+      "type": "tagliando",
+      "date": "2025-06-26",
+      "km": 140000,
+      "cost": 240,
+      "place": "Roscini",
+      "note": "Pastiglie freni, tagliando"
+    },
+    {
       "type": "revisione",
       "date": "2025-10-27",
       "km": 145528,
