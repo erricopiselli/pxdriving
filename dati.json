@@ -1,6 +1,14 @@
 {
   "errico": [
     {
+      "type": "altro",
+      "date": "2024-09-06",
+      "km": 127000,
+      "cost": null,
+      "place": "",
+      "note": "Additivo iniettori"
+    },
+    {
       "type": "controllokm",
       "date": "2025-01-22",
       "km": 132351,
