@@ -1,6 +1,14 @@
 {
   "errico": [
     {
+      "type": "controllokm",
+      "date": "2025-01-22",
+      "km": 132351,
+      "cost": null,
+      "place": "",
+      "note": ""
+    },
+    {
       "type": "tagliando",
       "date": "2025-03-29",
       "km": 134439,
