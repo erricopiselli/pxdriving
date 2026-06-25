@@ -1,14 +1,6 @@
 {
   "errico": [
     {
-      "type": "tagliando",
-      "date": "2025-08-23",
-      "km": 100000,
-      "cost": null,
-      "place": "Err",
-      "note": ""
-    },
-    {
       "type": "controllokm",
       "date": "2026-06-25",
       "km": 156000,
