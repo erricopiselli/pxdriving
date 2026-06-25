@@ -23,6 +23,14 @@
       "cost": null,
       "place": "",
       "note": ""
+    },
+    {
+      "type": "tagliando",
+      "date": "2026-06-25",
+      "km": 140580,
+      "cost": 1968,
+      "place": "Elettrogomme",
+      "note": "Distribuzione, Frizione e volano, Ventola radiatore, aria condizionata, convergenza"
     }
   ],
   "elena": []
