@@ -1,13 +1,4 @@
 {
-  "errico": [
-    {
-      "type": "controllokm",
-      "date": "2026-06-25",
-      "km": 156000,
-      "cost": null,
-      "place": "",
-      "note": ""
-    }
-  ],
+  "errico": [],
   "elena": []
 }
