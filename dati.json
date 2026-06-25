@@ -1,6 +1,14 @@
 {
   "errico": [
     {
+      "type": "revisione",
+      "date": "2025-10-27",
+      "km": 145528,
+      "cost": 78.3,
+      "place": "RP Autoricambi",
+      "note": ""
+    },
+    {
       "type": "gomme",
       "date": "2026-01-02",
       "km": 148341,
