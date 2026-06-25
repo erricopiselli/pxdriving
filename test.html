@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test</title>
+</head>
+<body>
+<h2>Test pulsante</h2>
+<input type="text" id="campo" placeholder="scrivi qualcosa">
+<br><br>
+<button onclick="testa()">Premi qui</button>
+<p id="risultato"></p>
+<script>
+function testa() {
+  var val = document.getElementById('campo').value;
+  document.getElementById('risultato').textContent = 'Funziona! Hai scritto: ' + val;
+}
+</script>
+</body>
+</html>
