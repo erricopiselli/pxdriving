@@ -7,6 +7,14 @@
       "cost": 200,
       "place": "Pneumatici discount PESARO",
       "note": "2 gomme davanti per FORATURA"
+    },
+    {
+      "type": "controllokm",
+      "date": "2026-05-07",
+      "km": 153740,
+      "cost": null,
+      "place": "",
+      "note": ""
     }
   ],
   "elena": []
