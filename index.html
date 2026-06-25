@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PxDriving</title>
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PxDriving">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
+:root{--bg:#0f1117;--surface:#1a1d27;--surface2:#222535;--border:#2e3247;--accent:#e8ff47;--text:#f0f2ff;--muted:#8b90a8;--danger:#ff5c5c;--success:#4ade80;--errico:#5aabf7;--elena:#f472b6}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.5px}
+.logo span{color:var(--accent)}
+.car-tabs{display:flex;gap:8px}
+.car-tab{padding:6px 16px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+.car-tab.errico.active{background:var(--errico);border-color:var(--errico);color:#fff}
+.car-tab.elena.active{background:var(--elena);border-color:var(--elena);color:#fff}
+.car-tab:hover:not(.active){border-color:var(--muted);color:var(--text)}
+main{max-width:700px;margin:0 auto;padding:24px 16px 80px}
+.car-hero{border-radius:16px;padding:20px 24px;margin-bottom:16px;display:flex;align-items:center;gap:16px}
+.car-hero.errico{background:linear-gradient(135deg,#5aabf720,#5aabf708);border:1px solid #5aabf730}
+.car-hero.elena{background:linear-gradient(135deg,#f472b620,#f472b608);border:1px solid #f472b630}
+.car-icon{font-size:42px;flex-shrink:0}
+.car-hero-info h2{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700}
+.car-hero-info p{font-size:13px;color:var(--muted);margin-top:2px}
+.car-hero-stats{margin-left:auto;text-align:right}
+.car-hero-stats .big{font-size:22px;font-weight:700;font-family:'Space Grotesk',sans-serif}
+.car-hero-stats .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.setup-banner{background:#1e2a1a;border:1.5px solid #4ade8040;border-radius:14px;padding:16px 18px;margin-bottom:20px;display:flex;gap:14px;align-items:flex-start}
+.setup-banner.hidden{display:none}
+.setup-banner-icon{font-size:24px;flex-shrink:0}
+.setup-banner-body h4{font-size:14px;font-weight:700;color:var(--success);margin-bottom:4px}
+.setup-banner-body p{font-size:13px;color:var(--muted);line-height:1.5}
+.setup-banner-body input{width:100%;margin-top:8px;padding:9px 12px;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none}
+.btn-connect{margin-top:10px;padding:9px 18px;border-radius:8px;border:none;background:var(--success);color:#0f1117;font-weight:700;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif}
+.sync-bar{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-bottom:16px;padding:8px 12px;background:var(--surface);border-radius:8px;border:1px solid var(--border)}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0}
+.sync-dot.ok{background:var(--success)}
+.sync-dot.syncing{background:var(--accent);animation:pulse 1s infinite}
+.sync-dot.error{background:var(--danger)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.section-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.action-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.btn-add{width:100%;padding:14px;border-radius:12px;border:1.5px dashed var(--border);background:transparent;color:var(--muted);font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif}
+.btn-add:hover{border-color:var(--accent);color:var(--accent)}
+.btn-reminder-main{width:100%;padding:14px;border-radius:12px;border:1.5px dashed #5b8af760;background:transparent;color:#5b8af7;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif}
+.modal-overlay{display:none;position:fixed;inset:0;background:#00000090;z-index:200;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px 24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
+.modal h3{font-family:'Space Grotesk',sans-serif;font-size:18px;margin-bottom:20px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;padding:11px 14px;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-family:'Inter',sans-serif;font-size:15px;outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#5b8af7}
+.field select option{background:var(--surface2)}
+.field textarea{resize:vertical;min-height:70px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-actions{display:flex;gap:10px;margin-top:20px}
+.btn-primary{flex:1;padding:12px;border-radius:10px;border:none;background:var(--accent);color:#0f1117;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
+.btn-secondary{padding:12px 20px;border-radius:10px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:15px;cursor:pointer}
+.btn-cal{flex:1;padding:12px;border-radius:10px;border:none;background:#4285f4;color:#fff;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.hint{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.4}
+.km-suggestion{background:linear-gradient(135deg,#1a2a1a,#1a1d27);border:1.5px solid #4ade8050;border-radius:12px;padding:14px 16px;margin-top:10px;display:none}
+.km-suggestion.visible{display:block}
+.km-title{font-size:12px;font-weight:700;color:var(--success);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.km-range{font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px}
+.km-detail{font-size:12px;color:var(--muted);line-height:1.5}
+.km-pick{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.km-pick-btn{padding:6px 14px;border-radius:8px;border:1px solid #4ade8060;background:#4ade8015;color:var(--success);font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+.total-bar{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.total-bar .lbl{font-size:13px;color:var(--muted)}
+.total-bar .amt{font-size:20px;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--accent)}
+.record-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:10px;display:flex;align-items:flex-start;gap:14px}
+.record-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.record-body{flex:1;min-width:0}
+.record-type{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.record-place{font-size:14px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.record-note{font-size:12px;color:var(--muted);margin-top:4px;font-style:italic}
+.record-meta{text-align:right;flex-shrink:0}
+.record-cost{font-size:16px;font-weight:700;font-family:'Space Grotesk',sans-serif}
+.record-date{font-size:12px;color:var(--muted);margin-top:2px}
+.record-km{font-size:12px;color:var(--muted)}
+.record-actions{display:flex;gap:6px;margin-top:8px;justify-content:flex-end}
+.btn-icon{padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:12px;cursor:pointer}
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty .empty-icon{font-size:40px;margin-bottom:10px}
+.type-tagliando{color:#f97316}.type-revisione{color:#60a5fa}.type-gomme{color:#4ade80}
+.type-freni{color:#f43f5e}.type-batteria{color:#facc15}.type-controllokm{color:#a78bfa}.type-altro{color:#94a3b8}
+.bg-tagliando{background:#f9731620}.bg-revisione{background:#60a5fa20}.bg-gomme{background:#4ade8020}
+.bg-freni{background:#f43f5e20}.bg-batteria{background:#facc1520}.bg-controllokm{background:#a78bfa20}.bg-altro{background:#94a3b820}
+.btn-disc{display:none;padding:4px 10px;border-radius:6px;border:1px solid #ff5c5c40;background:transparent;color:#ff5c5c;font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;margin-left:auto}
+@media(max-width:500px){.car-tabs{gap:6px}.car-tab{padding:5px 12px;font-size:13px}.field-row{grid-template-columns:1fr}.action-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Px<span>Driving</span></div>
+  <div class="car-tabs">
+    <button class="car-tab errico active" onclick="switchCar('errico')">&#x1F699; Errico</button>
+    <button class="car-tab elena" onclick="switchCar('elena')">&#x1F697; Elena</button>
+  </div>
+</header>
+<main>
+  <div class="setup-banner" id="setup-banner">
+    <div class="setup-banner-icon">&#x2601;&#xFE0F;</div>
+    <div class="setup-banner-body">
+      <h4>Connetti a GitHub</h4>
+      <p>I tuoi dati verranno salvati automaticamente in un file <strong>dati.json</strong> nel tuo repository.</p>
+      <input type="text" id="gh-owner" placeholder="Username GitHub (es. mario123)">
+      <input type="text" id="gh-repo" placeholder="Nome repository (es. pxdriving)" style="margin-top:8px">
+      <input type="password" id="gh-token" placeholder="Personal Access Token" style="margin-top:8px">
+      <br><button class="btn-connect" onclick="saveGHConnection()">Salva connessione</button>
+    </div>
+  </div>
+  <div class="sync-bar" id="sync-bar">
+    <div class="sync-dot" id="sync-dot"></div>
+    <span id="sync-label" style="flex:1">Non connesso a GitHub</span>
+    <button class="btn-disc" id="btn-disc" onclick="disconnectGH()">Scollega</button>
+  </div>
+  <div class="car-hero errico" id="car-hero">
+    <div class="car-icon" id="car-icon">&#x1F699;</div>
+    <div class="car-hero-info">
+      <h2 id="hero-name">Errico</h2>
+      <p>Storico manutenzione</p>
+    </div>
+    <div class="car-hero-stats">
+      <div class="big" id="hero-km">&#x2014;</div>
+      <div class="label">Ultimo km</div>
+    </div>
+  </div>
+  <div id="total-bar" class="total-bar" style="display:none">
+    <span class="lbl">Totale spese anno corrente</span>
+    <span class="amt" id="total-amount">&#x20AC; 0</span>
+  </div>
+  <div class="section-title">Azioni rapide</div>
+  <div class="action-row">
+    <button class="btn-add" onclick="openModal()">&#xFF0B; Aggiungi intervento</button>
+    <button class="btn-reminder-main" onclick="openReminderModal(null)">&#x1F514; Nuovo promemoria</button>
+  </div>
+  <div class="section-title">Interventi</div>
+  <div id="records-list"></div>
+  <div style="margin-top:16px;text-align:center">
+    <button onclick="exportCSV()" style="padding:10px 20px;border-radius:10px;border:1.5px solid #2e3247;background:transparent;color:#8b90a8;font-size:13px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">&#x1F4E5; Esporta dati CSV</button>
+  </div>
+</main>
+
+<!-- MODAL INTERVENTO -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3 id="modal-title">Nuovo intervento</h3>
+    <div class="field">
+      <label>Tipo di intervento</label>
+      <select id="f-type">
+        <option value="tagliando">&#x1F527; Tagliando</option>
+        <option value="revisione">&#x1F4CB; Revisione</option>
+        <option value="gomme">&#x1F504; Cambio gomme</option>
+        <option value="freni">&#x1F6D1; Freni</option>
+        <option value="batteria">&#x1F50B; Batteria</option>
+        <option value="controllokm">&#x1F4CD; Controllo km</option>
+        <option value="altro">&#x1F529; Altro</option>
+      </select>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Data</label><input type="date" id="f-date"></div>
+      <div class="field"><label>Chilometraggio</label><input type="number" id="f-km" placeholder="es. 45000"></div>
+    </div>
+    <div class="field"><label>Spesa (euro)</label><input type="number" id="f-cost" placeholder="es. 180" step="0.01"></div>
+    <div class="field"><label>Officina / Luogo</label><input type="text" id="f-place" placeholder="es. Euromaster Roma"></div>
+    <div class="field"><label>Note (opzionale)</label><textarea id="f-note" placeholder="es. Cambiato anche filtro aria..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Annulla</button>
+      <button class="btn-primary" onclick="saveRecord()">Salva</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PROMEMORIA -->
+<div class="modal-overlay" id="reminder-modal">
+  <div class="modal">
+    <h3>Promemoria manutenzione</h3>
+    <div class="field">
+      <label>Auto</label>
+      <select id="r-car" onchange="calcKmSuggestion()">
+        <option value="errico">&#x1F699; Errico</option>
+        <option value="elena">&#x1F697; Elena</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Tipo manutenzione</label>
+      <select id="r-type">
+        <option value="Tagliando">&#x1F527; Tagliando</option>
+        <option value="Revisione">&#x1F4CB; Revisione</option>
+        <option value="Cambio gomme">&#x1F504; Cambio gomme</option>
+        <option value="Controllo freni">&#x1F6D1; Controllo freni</option>
+        <option value="Cambio batteria">&#x1F50B; Cambio batteria</option>
+        <option value="Controllo km">&#x1F4CD; Controllo km</option>
+        <option value="Bollo">&#x1F4C4; Bollo</option>
+        <option value="Assicurazione">&#x1F6E1;&#xFE0F; Assicurazione</option>
+        <option value="Altro">&#x1F529; Altro</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Al chilometraggio target (opzionale)</label>
+      <input type="number" id="r-km-target" placeholder="es. 180000" oninput="calcKmSuggestion()">
+      <p class="hint">Inserisci il km target per ricevere una stima automatica della data</p>
+    </div>
+    <div class="km-suggestion" id="km-suggestion">
+      <div class="km-title">Stima data basata sui tuoi km</div>
+      <div class="km-range" id="km-range-text"></div>
+      <div class="km-detail" id="km-detail-text"></div>
+      <div class="km-pick" id="km-pick-btns"></div>
+    </div>
+    <div class="field">
+      <label>Data del promemoria</label>
+      <input type="date" id="r-date">
+      <p class="hint">Usa la data suggerita oppure inseriscine una manualmente</p>
+    </div>
+    <div class="field">
+      <label>Note aggiuntive (opzionale)</label>
+      <input type="text" id="r-note" placeholder="es. Officina Rossi, tel 06...">
+    </div>
+    <div style="background:var(--surface2);border-radius:10px;padding:14px">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Si aprira Google Calendar gia precompilato. Ti bastera cliccare Salva.</p>
+      <div class="modal-actions" style="margin-top:0">
+        <button class="btn-secondary" onclick="closeReminderModal()">Annulla</button>
+        <button class="btn-cal" onclick="openGoogleCalendar()">&#x1F4C5; Apri Google Calendar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var currentCar = 'errico';
+var editIndex = null;
+var GH_SHA = null;
+
+var CARS = {
+  errico: { name: 'Errico', icon: '\uD83D\uDE99', color: 'errico' },
+  elena:  { name: 'Elena',  icon: '\uD83D\uDE97', color: 'elena'  }
+};
+
+var TYPE_META = {
+  tagliando:   { label: 'Tagliando',    icon: '\uD83D\uDD27', cls: 'tagliando'   },
+  revisione:   { label: 'Revisione',    icon: '\uD83D\uDCCB', cls: 'revisione'   },
+  gomme:       { label: 'Cambio gomme', icon: '\uD83D\uDD04', cls: 'gomme'       },
+  freni:       { label: 'Freni',        icon: '\uD83D\uDED1', cls: 'freni'       },
+  batteria:    { label: 'Batteria',     icon: '\uD83D\uDD0B', cls: 'batteria'    },
+  controllokm: { label: 'Controllo km', icon: '\uD83D\uDCCD', cls: 'controllokm' },
+  altro:       { label: 'Altro',        icon: '\uD83D\uDD29', cls: 'altro'       }
+};
+
+function getGHConfig() {
+  var r = localStorage.getItem('px_gh');
+  return r ? JSON.parse(r) : null;
+}
+function saveGHConfig(cfg) { localStorage.setItem('px_gh', JSON.stringify(cfg)); }
+function clearGHConfig()   { localStorage.removeItem('px_gh'); }
+
+function getData() {
+  var r = localStorage.getItem('pxdriving');
+  return r ? JSON.parse(r) : { errico: [], elena: [] };
+}
+function saveLocal(data) { localStorage.setItem('pxdriving', JSON.stringify(data)); }
+
+function ghUrl(cfg) {
+  return 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/dati.json';
+}
+function ghHdr(cfg) {
+  return { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' };
+}
+
+function setSyncStatus(state, msg) {
+  document.getElementById('sync-dot').className = 'sync-dot' + (state ? ' ' + state : '');
+  document.getElementById('sync-label').textContent = msg;
+  document.getElementById('btn-disc').style.display = (state === 'ok' || state === 'error') ? 'block' : 'none';
+}
+
+function loadFromGH() {
+  var cfg = getGHConfig();
+  if (!cfg) { renderHero(); renderRecords(); return; }
+  setSyncStatus('syncing', 'Caricamento da GitHub...');
+  fetch(ghUrl(cfg) + '?t=' + Date.now(), { headers: ghHdr(cfg) })
+    .then(function(r) {
+      if (r.status === 404) {
+        setSyncStatus('ok', 'Connesso a GitHub - nessun dato ancora');
+        renderHero(); renderRecords(); return null;
+      }
+      return r.json();
+    })
+    .then(function(data) {
+      if (!data) return;
+      GH_SHA = data.sha;
+      var decoded = JSON.parse(atob(data.content.replace(/\n/g, '')));
+      saveLocal(decoded);
+      renderHero();
+      renderRecords();
+      setSyncStatus('ok', 'Aggiornato da GitHub - ' + new Date().toLocaleTimeString('it'));
+    })
+    .catch(function() {
+      setSyncStatus('error', 'Errore caricamento GitHub');
+      renderHero(); renderRecords();
+    });
+}
+
+function saveToGH(data) {
+  var cfg = getGHConfig();
+  if (!cfg) return;
+  setSyncStatus('syncing', 'Salvataggio su GitHub...');
+  var content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+  var body = { message: 'PxDriving update', content: content };
+  if (GH_SHA) body.sha = GH_SHA;
+  fetch(ghUrl(cfg), { method: 'PUT', headers: ghHdr(cfg), body: JSON.stringify(body) })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.content && res.content.sha) {
+        GH_SHA = res.content.sha;
+        setSyncStatus('ok', 'Salvato su GitHub - ' + new Date().toLocaleTimeString('it'));
+      } else {
+        setSyncStatus('error', 'Errore: ' + (res.message || 'sconosciuto'));
+      }
+    })
+    .catch(function() { setSyncStatus('error', 'Errore connessione GitHub'); });
+}
+
+function saveGHConnection() {
+  var owner = document.getElementById('gh-owner').value.trim();
+  var repo  = document.getElementById('gh-repo').value.trim();
+  var token = document.getElementById('gh-token').value.trim();
+  if (!owner || !repo || !token) { alert('Compila tutti i campi.'); return; }
+  saveGHConfig({ owner: owner, repo: repo, token: token });
+  document.getElementById('setup-banner').classList.add('hidden');
+  setSyncStatus('ok', 'Connesso a GitHub');
+  loadFromGH();
+}
+
+function disconnectGH() {
+  if (!confirm('Scollegare GitHub?')) return;
+  clearGHConfig();
+  GH_SHA = null;
+  document.getElementById('setup-banner').classList.remove('hidden');
+  setSyncStatus('', 'Non connesso a GitHub');
+}
+
+function init() {
+  var cfg = getGHConfig();
+  if (cfg) {
+    document.getElementById('setup-banner').classList.add('hidden');
+    document.getElementById('gh-owner').value = cfg.owner;
+    document.getElementById('gh-repo').value  = cfg.repo;
+    document.getElementById('gh-token').value = cfg.token;
+    setSyncStatus('ok', 'Connesso a GitHub');
+    loadFromGH();
+  } else {
+    renderHero();
+    renderRecords();
+  }
+}
+
+function switchCar(car) {
+  currentCar = car;
+  document.querySelectorAll('.car-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelector('.car-tab.' + car).classList.add('active');
+  renderHero();
+  renderRecords();
+}
+
+function renderHero() {
+  var c = CARS[currentCar];
+  document.getElementById('car-hero').className = 'car-hero ' + c.color;
+  document.getElementById('hero-name').textContent = c.name;
+  document.getElementById('car-icon').textContent = c.icon;
+  var records = getData()[currentCar];
+  var lastKm = 0;
+  records.forEach(function(r) { if (r.km && r.km > lastKm) lastKm = r.km; });
+  document.getElementById('hero-km').textContent = lastKm ? lastKm.toLocaleString('it') + ' km' : '-';
+}
+
+function renderRecords() {
+  var data = getData();
+  var records = data[currentCar].slice().reverse();
+  var list = document.getElementById('records-list');
+  var tb = document.getElementById('total-bar');
+  if (!records.length) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">\uD83D\uDEE0\uFE0F</div><p>Nessun intervento registrato.<br>Aggiungi il primo!</p></div>';
+    tb.style.display = 'none'; return;
+  }
+  var year = String(new Date().getFullYear());
+  var total = 0;
+  data[currentCar].forEach(function(r) { if (r.date && r.date.indexOf(year) === 0) total += parseFloat(r.cost) || 0; });
+  tb.style.display = 'flex';
+  document.getElementById('total-amount').textContent = '\u20AC ' + total.toFixed(2).replace('.', ',');
+  var h = '';
+  records.forEach(function(r, i) {
+    var realIdx = data[currentCar].length - 1 - i;
+    var tm = TYPE_META[r.type] || TYPE_META.altro;
+    var cost = parseFloat(r.cost || 0).toFixed(2).replace('.', ',');
+    var place = r.place ? r.place.replace(/</g,'&lt;') : '-';
+    var note = r.note ? r.note.replace(/</g,'&lt;') : '';
+    h += '<div class="record-card">'
+      + '<div class="record-icon bg-' + tm.cls + ' type-' + tm.cls + '">' + tm.icon + '</div>'
+      + '<div class="record-body">'
+        + '<div class="record-type type-' + tm.cls + '">' + tm.label + '</div>'
+        + '<div class="record-place">' + place + '</div>'
+        + (note ? '<div class="record-note">' + note + '</div>' : '')
+      + '</div>'
+      + '<div class="record-meta">'
+        + '<div class="record-cost">\u20AC ' + cost + '</div>'
+        + '<div class="record-date">' + formatDate(r.date) + '</div>'
+        + '<div class="record-km">' + (r.km ? r.km.toLocaleString('it') + ' km' : '') + '</div>'
+        + '<div class="record-actions">'
+          + '<button class="btn-icon" onclick="openReminderModal(' + realIdx + ')">\uD83D\uDD14</button>'
+          + '<button class="btn-icon" onclick="editRecord(' + realIdx + ')">\u270F\uFE0F</button>'
+          + '<button class="btn-icon" onclick="deleteRecord(' + realIdx + ')">\uD83D\uDDD1\uFE0F</button>'
+        + '</div>'
+      + '</div>'
+    + '</div>';
+  });
+  list.innerHTML = h;
+}
+
+function formatDate(d) {
+  if (!d) return '-';
+  var p = d.split('-');
+  return p[2] + '/' + p[1] + '/' + p[0];
+}
+
+function openModal(idx) {
+  editIndex = (idx !== undefined && idx !== null) ? idx : null;
+  var today = new Date().toISOString().split('T')[0];
+  if (editIndex !== null) {
+    var r = getData()[currentCar][editIndex];
+    document.getElementById('modal-title').textContent = 'Modifica intervento';
+    document.getElementById('f-type').value  = r.type  || 'tagliando';
+    document.getElementById('f-date').value  = r.date  || today;
+    document.getElementById('f-km').value    = r.km    || '';
+    document.getElementById('f-cost').value  = r.cost  || '';
+    document.getElementById('f-place').value = r.place || '';
+    document.getElementById('f-note').value  = r.note  || '';
+  } else {
+    document.getElementById('modal-title').textContent = 'Nuovo intervento';
+    document.getElementById('f-type').value  = 'tagliando';
+    document.getElementById('f-date').value  = today;
+    ['f-km','f-cost','f-place','f-note'].forEach(function(id){ document.getElementById(id).value = ''; });
+  }
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('open'); editIndex = null; }
+
+function saveRecord() {
+  var type  = document.getElementById('f-type').value;
+  var date  = document.getElementById('f-date').value;
+  var km    = document.getElementById('f-km').value;
+  var cost  = document.getElementById('f-cost').value;
+  var place = document.getElementById('f-place').value.trim();
+  var note  = document.getElementById('f-note').value.trim();
+  if (!date) { alert('Inserisci la data.'); return; }
+  var record = { type: type, date: date,
+    km:   km   ? parseInt(km,10)    : null,
+    cost: cost ? parseFloat(cost)   : null,
+    place: place, note: note };
+  var data = getData();
+  if (editIndex !== null) {
+    data[currentCar][editIndex] = record;
+  } else {
+    data[currentCar].push(record);
+  }
+  data[currentCar].sort(function(a,b){ return (a.date||'').localeCompare(b.date||''); });
+  saveLocal(data);
+  closeModal();
+  renderHero();
+  renderRecords();
+  saveToGH(data);
+}
+
+function editRecord(idx)   { openModal(idx); }
+
+function deleteRecord(idx) {
+  if (!confirm('Eliminare questo intervento?')) return;
+  var data = getData();
+  data[currentCar].splice(idx, 1);
+  saveLocal(data);
+  renderHero();
+  renderRecords();
+  saveToGH(data);
+}
+
+function calcKmPerYear(car) {
+  var records = getData()[car].filter(function(r){ return r.km && r.date; });
+  records.sort(function(a,b){ return a.date.localeCompare(b.date); });
+  if (records.length < 2) return null;
+  var first = records[0], last = records[records.length-1];
+  var kmDiff   = last.km - first.km;
+  var daysDiff = (new Date(last.date) - new Date(first.date)) / 86400000;
+  if (daysDiff < 30 || kmDiff <= 0) return null;
+  return { kmPerYear: Math.round(kmDiff/daysDiff*365), lastKm: last.km, months: Math.round(daysDiff/30) };
+}
+
+function calcKmSuggestion() {
+  var target = parseInt(document.getElementById('r-km-target').value, 10);
+  var car    = document.getElementById('r-car').value;
+  var box    = document.getElementById('km-suggestion');
+  if (!target || isNaN(target)) { box.classList.remove('visible'); return; }
+  var stats = calcKmPerYear(car);
+  if (!stats) {
+    box.classList.add('visible');
+    document.getElementById('km-range-text').textContent = 'Dati insufficienti';
+    document.getElementById('km-detail-text').textContent = 'Aggiungi almeno 2 interventi con km per una stima.';
+    document.getElementById('km-pick-btns').innerHTML = '';
+    return;
+  }
+  var mancanti = target - stats.lastKm;
+  if (mancanti <= 0) {
+    box.classList.add('visible');
+    document.getElementById('km-range-text').textContent = 'Chilometraggio gia superato!';
+    document.getElementById('km-detail-text').textContent = 'Ultimo km: ' + stats.lastKm.toLocaleString('it') + ' km.';
+    document.getElementById('km-pick-btns').innerHTML = '';
+    return;
+  }
+  var dMed = Math.round(mancanti/stats.kmPerYear*365);
+  var dMin = Math.round(dMed*0.85);
+  var dMax = Math.round(dMed*1.15);
+  function addDays(n){ var x=new Date(); x.setDate(x.getDate()+n); return x; }
+  function fmtIT(d){ return d.toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'}); }
+  function fmtISO(d){ return d.toISOString().split('T')[0]; }
+  var dA=addDays(dMin), dB=addDays(dMed), dC=addDays(dMax);
+  box.classList.add('visible');
+  document.getElementById('km-range-text').textContent = 'Tra il ' + fmtIT(dA) + ' e il ' + fmtIT(dC);
+  document.getElementById('km-detail-text').textContent = 'Media: ' + stats.kmPerYear.toLocaleString('it') + ' km/anno (ultimi ' + stats.months + ' mesi). Mancano ~' + mancanti.toLocaleString('it') + ' km.';
+  document.getElementById('km-pick-btns').innerHTML =
+    '<button class="km-pick-btn" onclick="setReminderDate(\'' + fmtISO(dA) + '\')">Data ottimistica</button>' +
+    '<button class="km-pick-btn" onclick="setReminderDate(\'' + fmtISO(dB) + '\')">Data media</button>' +
+    '<button class="km-pick-btn" onclick="setReminderDate(\'' + fmtISO(dC) + '\')">Data prudente</button>';
+}
+
+function setReminderDate(d) { document.getElementById('r-date').value = d; }
+
+function openReminderModal(idx) {
+  document.getElementById('r-car').value = currentCar;
+  if (idx !== null && idx !== undefined) {
+    var r  = getData()[currentCar][idx];
+    var tm = TYPE_META[r.type];
+    var sel = document.getElementById('r-type');
+    for (var i=0; i<sel.options.length; i++) {
+      if (tm && sel.options[i].value.toLowerCase().indexOf(tm.label.toLowerCase().split(' ')[0]) !== -1) {
+        sel.selectedIndex = i; break;
+      }
+    }
+  } else {
+    document.getElementById('r-type').selectedIndex = 0;
+  }
+  var d = new Date(); d.setMonth(d.getMonth()+6);
+  document.getElementById('r-date').value = d.toISOString().split('T')[0];
+  document.getElementById('r-km-target').value = '';
+  document.getElementById('r-note').value = '';
+  document.getElementById('km-suggestion').classList.remove('visible');
+  document.getElementById('reminder-modal').classList.add('open');
+}
+
+function closeReminderModal() { document.getElementById('reminder-modal').classList.remove('open'); }
+
+function openGoogleCalendar() {
+  var carKey   = document.getElementById('r-car').value;
+  var carName  = CARS[carKey].name;
+  var type     = document.getElementById('r-type').value;
+  var date     = document.getElementById('r-date').value;
+  var kmTarget = document.getElementById('r-km-target').value;
+  var note     = document.getElementById('r-note').value;
+  if (!date) { alert('Inserisci una data per il promemoria.'); return; }
+  var title = 'PxDriving - ' + type + ' (' + carName + ')';
+  var desc  = 'Promemoria manutenzione per ' + carName + ': ' + type + '.';
+  if (kmTarget) desc += '\nAl chilometraggio: ' + parseInt(kmTarget,10).toLocaleString('it') + ' km';
+  if (note)     desc += '\nNote: ' + note;
+  desc += '\n\n- PxDriving';
+  var ds = date.replace(/-/g,'');
+  window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text='
+    + encodeURIComponent(title) + '&dates=' + ds + '/' + ds
+    + '&details=' + encodeURIComponent(desc), '_blank');
+  closeReminderModal();
+}
+
+function exportCSV() {
+  var data = getData();
+  var rows = ['Auto,Data,Tipo,Spesa (EUR),Luogo,Chilometri,Note'];
+  ['errico','elena'].forEach(function(car) {
+    var name = CARS[car].name;
+    data[car].forEach(function(r) {
+      var tm = TYPE_META[r.type] || TYPE_META.altro;
+      function esc(v) { v = v ? String(v) : ''; return v.indexOf(',') !== -1 || v.indexOf('"') !== -1 || v.indexOf('
+') !== -1 ? '"' + v.replace(/"/g,'""') + '"' : v; }
+      rows.push([
+        esc(name),
+        esc(formatDate(r.date)),
+        esc(tm.label),
+        esc(r.cost !== null ? String(r.cost) : ''),
+        esc(r.place),
+        esc(r.km !== null ? String(r.km) : ''),
+        esc(r.note)
+      ].join(','));
+    });
+  });
+  var csv = rows.join('
+');
+  var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'PxDriving_' + new Date().toISOString().split('T')[0] + '.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+init();
+</script>
+</body>
+</html>
