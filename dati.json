@@ -55,6 +55,14 @@
       "cost": 1968,
       "place": "Elettrogomme",
       "note": "Distribuzione, Frizione e volano, Ventola radiatore, aria condizionata, convergenza"
+    },
+    {
+      "type": "altro",
+      "date": "2026-06-25",
+      "km": 127726,
+      "cost": 180,
+      "place": "Azemi",
+      "note": "Tubo aspirazione FAP errore iniezione"
     }
   ],
   "elena": []
