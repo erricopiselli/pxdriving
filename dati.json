@@ -1,6 +1,14 @@
 {
   "errico": [
     {
+      "type": "gomme",
+      "date": "2024-08-08",
+      "km": 126000,
+      "cost": 160,
+      "place": "Geometria dell'auto",
+      "note": "Una gomma per foratura"
+    },
+    {
       "type": "altro",
       "date": "2024-09-06",
       "km": 127000,
