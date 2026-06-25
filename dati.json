@@ -1,4 +1,13 @@
 {
-  "errico": [],
+  "errico": [
+    {
+      "type": "gomme",
+      "date": "2026-01-02",
+      "km": 148341,
+      "cost": 200,
+      "place": "Pneumatici discount PESARO",
+      "note": "2 gomme davanti per FORATURA"
+    }
+  ],
   "elena": []
 }
