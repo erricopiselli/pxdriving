@@ -9,6 +9,14 @@
       "note": "Coppia placchette freno POSTERIORI, Tagliando, filtri, olio, Coppia DISCHI freno ANTERIORI"
     },
     {
+      "type": "altro",
+      "date": "2022-06-24",
+      "km": 87540,
+      "cost": 654.58,
+      "place": "Tombolini",
+      "note": "Sostituzione braccetti"
+    },
+    {
       "type": "tagliando",
       "date": "2023-03-21",
       "km": 105445,
