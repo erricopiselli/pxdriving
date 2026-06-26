@@ -79,6 +79,14 @@
       "cost": 1968,
       "place": "Elettrogomme",
       "note": "Distribuzione, Frizione e volano, Ventola radiatore, aria condizionata, convergenza"
+    },
+    {
+      "type": "tagliando",
+      "date": "2026-06-26",
+      "km": 156000,
+      "cost": 600,
+      "place": "Elettrogomme",
+      "note": "tagliando, filtro olio, filtro aria, filtro gasolio, filtro abitacolo, coppia pastiglie freni POSTERIORI, olio motore, due gomme nuove (davanti TOYOTYRES)"
     }
   ],
   "elena": []
