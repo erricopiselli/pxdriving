@@ -10,6 +10,14 @@
     },
     {
       "type": "tagliando",
+      "date": "2023-03-21",
+      "km": 105445,
+      "cost": 222.09,
+      "place": "Tombolini",
+      "note": "Tagliando, filtri, rabbocco olio, aggiornamento r-link"
+    },
+    {
+      "type": "tagliando",
       "date": "2024-06-20",
       "km": 122700,
       "cost": 260,
