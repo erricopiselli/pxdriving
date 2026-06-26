@@ -1,6 +1,14 @@
 {
   "errico": [
     {
+      "type": "tagliando",
+      "date": "2024-06-20",
+      "km": 122700,
+      "cost": 260,
+      "place": "Elettrogomme",
+      "note": "Filtro olio, filtro abitacolo, spazzole tergicristallo, olio motore"
+    },
+    {
       "type": "gomme",
       "date": "2024-08-08",
       "km": 126000,
