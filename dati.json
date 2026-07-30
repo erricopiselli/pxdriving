@@ -113,5 +113,15 @@
       "note": "tagliando, filtro olio, filtro aria, filtro gasolio, filtro abitacolo, coppia pastiglie freni POSTERIORI, olio motore, due gomme nuove (davanti TOYOTYRES)"
     }
   ],
-  "elena": []
+  "elena": [
+    {
+      "type": "altro",
+      "date": "2026-07-30",
+      "km": 66351,
+      "cost": 10,
+      "place": "Elettrauto Bellafante",
+      "note": "Cambio lampadina faro destro anteriore",
+      "altro": ""
+    }
+  ]
 }
