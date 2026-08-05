@@ -122,6 +122,15 @@
       "place": "Elettrauto Bellafante",
       "note": "Cambio lampadina faro destro anteriore",
       "altro": ""
+    },
+    {
+      "type": "altro",
+      "date": "2026-08-05",
+      "km": null,
+      "cost": 70,
+      "place": "Geometria dell’auto",
+      "note": "",
+      "altro": "Gonfiaggio gomme e convergenza"
     }
   ]
 }
