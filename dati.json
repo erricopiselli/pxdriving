@@ -128,9 +128,18 @@
       "date": "2026-08-05",
       "km": 66400,
       "cost": 70,
-      "place": "Geometria dell’auto",
+      "place": "Geometria dellâauto",
       "note": "",
       "altro": "Gonfiaggio gomme e convergenza"
+    },
+    {
+      "type": "altro",
+      "date": "2026-08-07",
+      "km": 66869,
+      "cost": 277,
+      "place": "Due Emme via Ruggia",
+      "note": "Tagliando. Filtro aria, filtro olio, filtro abitacolo, olio motore. Pastiglie freni ANTERIORI",
+      "altro": "Tagliando e freni anteriori"
     }
   ]
 }
